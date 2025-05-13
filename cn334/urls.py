@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from user_management.views import RegisterView, LoginView
+from user_management.views import RegisterView, LoginView, UserProfileView, ToggleFavoriteAPIView, FavoriteListAPIView, ProductListAPIView
+from product_management import views
+from order_management.views import OrderCreateView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -24,8 +26,16 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('users/', include('general.urls')),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
-   
+    path('profile/', UserProfileView.as_view(), name='profile'),
+    path('product/all', views.product_all, name='product_all'),
+    path('product/<int:product_id>', views.product_detail, name='product_detail'),
+    path('product/summarize', views.product_summary, name='product_summary'),
+    path('api/favorite/<str:product_id>/toggle/', ToggleFavoriteAPIView.as_view(), name='toggle_favorite'),
+    path('api/favorites/', FavoriteListAPIView.as_view(), name='favorite_list'),
+    path('api/products/', ProductListAPIView.as_view(), name='product_list'),
+    path('api/orders/', include('order_management.urls')),
+    
+
 ]

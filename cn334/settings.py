@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "cn334",
     "user_management",
+    "product_management",
+    "order_management",
 ]
 
 MIDDLEWARE = [

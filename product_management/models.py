@@ -7,7 +7,7 @@ class Product(models.Model):
     color = models.CharField(max_length=20, null=True, blank=True)
     description = models.TextField(max_length=200, null=True, blank=True)
     size = models.CharField(max_length=10, null=True, blank=True)
-    is_favorite = models.BooleanField(default=False)
+    image = models.URLField(max_length=500, null=True, blank=True)
     
     def __str__(self):
         return self.product_name

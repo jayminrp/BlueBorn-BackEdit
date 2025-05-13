@@ -8,6 +8,67 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, CustomTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from product_management.models import Product
+from .models import Favorite
+from django.shortcuts import get_object_or_404
+
+class ToggleFavoriteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, product_id):
+        user = request.user
+        product = get_object_or_404(Product, product_id=product_id)
+
+        favorite, created = Favorite.objects.get_or_create(user=user, product=product)
+
+        if not created:
+            # กด unfavorite
+            favorite.delete()
+            return Response({'status': 'unfavorited'})
+        else:
+            return Response({'status': 'favorited'})
+        
+
+class ProductListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        products = Product.objects.all()
+        product_data = []
+        
+        for product in products:
+            # เช็คว่าสินค้าไหนที่ผู้ใช้ favorite
+            is_favorited = Favorite.objects.filter(user=request.user, product=product).exists()
+            product_data.append({
+                'product_id': product.product_id,
+                'product_name': product.product_name,
+                'is_favorited': is_favorited,
+            })
+
+        return Response(product_data)
+# accounts/views.py
+
+class FavoriteListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # ดึงสินค้าที่ถูก favorite โดยผู้ใช้
+        favorites = Favorite.objects.filter(user=request.user)
+        favorite_products = []
+
+        for favorite in favorites:
+            product = favorite.product
+            favorite_products.append({
+                'product_id': product.product_id,
+                'product_name': product.product_name,
+                'price': float(product.price),
+                'color': product.color,
+                'description': product.description,
+                'size': product.size,
+            })
+
+        return Response(favorite_products)
+
 
 # Register View
 class RegisterView(APIView):
