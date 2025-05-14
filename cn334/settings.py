@@ -66,7 +66,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://front-blueborn-cyioy3vfg-jaymins-projects-7667260e.vercel.app",
     "https://front-blueborn.vercel.app",
-    "https://front-blueborn-pgzfrg705-jaymins-projects-7667260e.vercel.app"
+    "https://front-blueborn-pgzfrg705-jaymins-projects-7667260e.vercel.app",
+    "https://front-bb.vercel.app"
 ]
 
 # Add additional CORS settings

@@ -16,10 +16,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from .models import Order, OrderItem
 from .serializers import OrderSerializer
 
 class OrderCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request, *args, **kwargs):
         try:
             # ตรวจสอบว่า request.data มีข้อมูลทั้งหมดที่ต้องการ
@@ -58,6 +61,8 @@ class OrderCreateView(APIView):
             return Response({"error": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class OrderDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, order_id, *args, **kwargs):
         try:
             order = Order.objects.get(id=order_id)
@@ -65,3 +70,14 @@ class OrderDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Order.DoesNotExist:
             return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class OrderListView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            orders = Order.objects.all()
+            serializer = OrderSerializer(orders, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
