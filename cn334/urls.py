@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from user_management.views import RegisterView, LoginView, UserProfileView, ToggleFavoriteAPIView, FavoriteListAPIView, ProductListAPIView
+from user_management.views import RegisterView, LoginView, UserProfileView, ToggleFavoriteAPIView, FavoriteListAPIView, ProductListAPIView, CartAPIView
 from product_management import views
 from order_management.views import OrderCreateView
 from rest_framework_simplejwt.views import (
@@ -36,6 +36,6 @@ urlpatterns = [
     path('api/favorites/', FavoriteListAPIView.as_view(), name='favorite_list'),
     path('api/products/', ProductListAPIView.as_view(), name='product_list'),
     path('api/orders/', include('order_management.urls')),
-    
+    path('cart/', CartAPIView.as_view(), name='cart'),
 
 ]
