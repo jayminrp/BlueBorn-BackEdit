@@ -2,6 +2,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import CartItem
+from product_management.models import Product
 
 class RegisterSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(write_only=True)
@@ -29,3 +31,16 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['username'] = self.user.username
         data['email'] = self.user.email
         return data
+    
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['product_id', 'product_name', 'price', 'description', 'image', 'color', 'size']
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product', 'quantity']
