@@ -67,7 +67,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://front-blueborn-cyioy3vfg-jaymins-projects-7667260e.vercel.app",
     "https://front-blueborn.vercel.app",
     "https://front-blueborn-pgzfrg705-jaymins-projects-7667260e.vercel.app",
-    "https://front-bb.vercel.app"
+    "https://front-bb.vercel.app",
+    "https://front-blueborn-n2dmjrauu-jaymins-projects-7667260e.vercel.app"
 ]
 
 # Add additional CORS settings
@@ -108,7 +109,8 @@ else:
         "https://front-blueborn.vercel.app",
         "https://front-blueborn-pgzfrg705-jaymins-projects-7667260e.vercel.app",
         "https://front-bb.vercel.app",
-        "https://front-bb-cyioy3vfg-jaymins-projects-7667260e.vercel.app"
+        "https://front-bb-cyioy3vfg-jaymins-projects-7667260e.vercel.app",
+        "https://front-blueborn-n2dmjrauu-jaymins-projects-7667260e.vercel.app"
     ]
 
 REST_FRAMEWORK = {
